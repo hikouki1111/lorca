@@ -46,13 +46,12 @@ var defaultChromeArgs = []string{
 	"--disable-translate",
 	"--disable-windows10-custom-titlebar",
 	"--metrics-recording-only",
-	"--no-first-run",
+	"no-first-run",
 	"--no-default-browser-check",
 	"--safebrowsing-disable-auto-update",
-	"--enable-automation",
+	"enable-automation",
 	"--password-store=basic",
 	"--use-mock-keychain",
-	"--remote-allow-origins=*",
 }
 
 // New returns a new HTML5 UI for the given URL, user profile directory, window
