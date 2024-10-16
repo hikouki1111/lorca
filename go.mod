@@ -1,4 +1,4 @@
-module github.com/hikouki1111/lorca_fix
+module github.com/hikouki1111/lorca-fix
 
 go 1.16
 
