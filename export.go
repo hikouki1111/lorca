@@ -1,16 +1,16 @@
-package lorca
+package lorca_fix
 
 import (
-	"fmt"
-	"io/ioutil"
-	"os"
+    "fmt"
+    "io/ioutil"
+    "os"
 )
 
 const (
-	// PageA4Width is a width of an A4 page in pixels at 96dpi
-	PageA4Width = 816
-	// PageA4Height is a height of an A4 page in pixels at 96dpi
-	PageA4Height = 1056
+    // PageA4Width is a width of an A4 page in pixels at 96dpi
+    PageA4Width = 816
+    // PageA4Height is a height of an A4 page in pixels at 96dpi
+    PageA4Height = 1056
 )
 
 // PDF converts a given URL (may be a local file) to a PDF file. Script is
@@ -19,12 +19,12 @@ const (
 // are page bounds in pixels. PDF by default uses 96dpi density. For A4 page
 // you may use PageA4Width and PageA4Height constants.
 func PDF(url, script string, width, height int) ([]byte, error) {
-	return doHeadless(url, func(c *chrome) ([]byte, error) {
-		if _, err := c.eval(script); err != nil {
-			return nil, err
-		}
-		return c.pdf(width, height)
-	})
+    return doHeadless(url, func(c *chrome) ([]byte, error) {
+        if _, err := c.eval(script); err != nil {
+            return nil, err
+        }
+        return c.pdf(width, height)
+    })
 }
 
 // PNG converts a given URL (may be a local file) to a PNG image. Script is
@@ -36,25 +36,25 @@ func PDF(url, script string, width, height int) ([]byte, error) {
 // This function is most convenient to convert SVG to PNG of different sizes,
 // for example when preparing Lorca app icons.
 func PNG(url, script string, x, y, width, height int, bg uint32, scale float32) ([]byte, error) {
-	return doHeadless(url, func(c *chrome) ([]byte, error) {
-		if _, err := c.eval(script); err != nil {
-			return nil, err
-		}
-		return c.png(x, y, width, height, bg, scale)
-	})
+    return doHeadless(url, func(c *chrome) ([]byte, error) {
+        if _, err := c.eval(script); err != nil {
+            return nil, err
+        }
+        return c.png(x, y, width, height, bg, scale)
+    })
 }
 
 func doHeadless(url string, f func(c *chrome) ([]byte, error)) ([]byte, error) {
-	dir, err := ioutil.TempDir("", "lorca")
-	if err != nil {
-		return nil, err
-	}
-	defer os.RemoveAll(dir)
-	args := append(defaultChromeArgs, fmt.Sprintf("--user-data-dir=%s", dir), "--remote-debugging-port=0", "--headless", url)
-	chrome, err := newChromeWithArgs(ChromeExecutable(), args...)
-	if err != nil {
-		return nil, err
-	}
-	defer chrome.kill()
-	return f(chrome)
+    dir, err := ioutil.TempDir("", "lorca")
+    if err != nil {
+        return nil, err
+    }
+    defer os.RemoveAll(dir)
+    args := append(defaultChromeArgs, fmt.Sprintf("--user-data-dir=%s", dir), "--remote-debugging-port=0", "--headless", url)
+    chrome, err := newChromeWithArgs(ChromeExecutable(), args...)
+    if err != nil {
+        return nil, err
+    }
+    defer chrome.kill()
+    return f(chrome)
 }
